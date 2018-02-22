@@ -2,7 +2,7 @@
 FROM jenkins
 
 # Set desired Android Linux SDK version
-ENV ANDROID_SDK_VERSION 24.4.1
+ENV ANDROID_SDK_VERSION 25.0.2
 
 ENV ANDROID_SDK_ZIP android-sdk_r$ANDROID_SDK_VERSION-linux.tgz
 ENV ANDROID_SDK_ZIP_URL https://dl.google.com/android/$ANDROID_SDK_ZIP
@@ -36,8 +36,11 @@ RUN tar xzvf /opt/$ANDROID_SDK_ZIP -C /opt/ && \
 RUN	echo "y" | android update sdk -u -a --filter platform-tools,android-23,build-tools-23.0.3 && \
 	chmod -R 755 $ANDROID_HOME
 	
-RUN	echo "y" | android update sdk -u -a --filter platform-tools,android-24,build-tools-24.0.1 && \
+RUN	echo "y" | android update sdk -u -a --filter platform-tools,android-25,build-tools-25.0.2 && \
 	chmod -R 755 $ANDROID_HOME
+
+# Install Android Support
+RUN     echo "y" | android update sdk --no-ui --all --filter "extra-android-m2repository"
 
 # Install 32-bit compatibility for 64-bit environments
 RUN apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386 -y
